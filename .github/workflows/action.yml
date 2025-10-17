@@ -236,11 +236,16 @@ jobs:
     runs-on: ubuntu-latest
     if: "startsWith(github.ref, 'refs/tags/')"
     steps:
-    - name: Download cpp artifacts
+    - name: Download cpp artifacts armv7
       uses: actions/download-artifact@v4
       with:
         name: cpp-armv7-unknown-linux-gnueabihf
-        path: cpp
+        path: cpp-armv7
+    - name: Download cpp artifacts aarch64
+      uses: actions/download-artifact@v4
+      with:
+        name: cpp-aarch64-unknown-linux-gnu
+        path: cpp-aarch64
     - name: Download python artifacts
       uses: actions/download-artifact@v4
       with:
@@ -250,6 +255,9 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y zip
+        mkdir -p cpp
+        cp -r cpp-armv7/* cpp/
+        cp -r cpp-aarch64/* cpp/
         cd cpp
         zip -rT ../cpp.zip *
         cd ../python
