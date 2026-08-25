@@ -110,12 +110,12 @@ jobs:
       with:
         use-cross: true
         command: build
-        args: --verbose --release --target=${{ matrix.TARGET }} -Z unstable-options --out-dir output/
+        args: --verbose --release --target=${{ matrix.TARGET }}
     - name: Move to it's target
       run: |
         mkdir dist
         mkdir "dist/${{ matrix.TARGET }}"
-        mv output/* "dist/${{ matrix.TARGET }}"
+        mv target/${{ matrix.TARGET }}/release/*.so "dist/${{ matrix.TARGET }}"
         mv target/release/bindings.h dist/
     - name: Upload bin
       uses: actions/upload-artifact@v4
